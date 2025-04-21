@@ -4,6 +4,7 @@
 @section('content')
 
 <div class="row">
+    @if(Auth::user()->role === 'employee')
     <div class="col-lg-12 p-3"> 
         <div class="card">
             <div class="card-body">
@@ -27,6 +28,9 @@
             </div>
         </div>
     </div>
+    @endif
+
+    @if(Auth::user()->role === 'admin')
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
@@ -50,6 +54,7 @@
                 </div>
             </div>
         </div>
+    @endif
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,9 +66,9 @@
             new Chart(pieCtx, {
                 type: 'pie',
                 data: {
-                    labels: 
+                    labels: @json($labelspieChart),
                     datasets: [{
-                        data: 
+                        data: @json($salesDatapieChart),
                         backgroundColor: [
                             '#FF6384',
                             '#36A2EB',
@@ -104,10 +109,10 @@
             new Chart(lineCtx, {
                 type: 'line',
                 data: {
-                    labels:
+                    labels: @json($labels),
                     datasets: [{
                         label: 'Jumlah Penjualan',
-                        data: 
+                        data: @json($salesData),
                         backgroundColor: 'rgba(54, 162, 235, 0.6)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 2,

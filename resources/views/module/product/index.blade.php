@@ -51,6 +51,30 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($products as $index => $product)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td><img src="{{ asset('image/' . $product->image) }}" alt="Product Image" width="100"></td>
+                                <td>{{ $product->name }}</td>
+                                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                <td>{{ $product->stock }}</td>
+                                @if(Auth::user()->role === 'admin')
+                                <td>
+                                    <a href="{{ route('product.edit', $product->id) }}" class="btn btn-warning"><i class="mdi mdi-tooltip-edit"></i></a>
+
+                                    <!-- Tombol untuk membuka modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateStockModal{{ $product->id }}">
+                                        <i class="mdi mdi-update"></i>
+                                    </button>
+
+                                    <form action="{{ route('product.delete', $product->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?')"><i class="mdi mdi-delete"></i></button>
+                                    </form>
+                                </td>
+                                @endif
+                            </tr>
 
                             <!-- Modal untuk tiap produk -->
                             <div class="modal fade" id="updateStockModal{{ $product->id }}" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -81,6 +105,10 @@
                                 </div>
                             </div>
                             @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Tidak ada produk</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
