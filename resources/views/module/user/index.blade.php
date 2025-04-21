@@ -49,6 +49,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($users as $index => $user)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->role }}</td>
+                                <td>
+                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                         
+                                        <form action="{{ route('user.delete', $user->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?')"><i class="mdi mdi-delete"></i></button>
+                                        </form>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Tidak ada data pengguna</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

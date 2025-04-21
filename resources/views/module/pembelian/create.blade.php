@@ -10,6 +10,31 @@
                         <section>
                             <div class="text-center container">
                                 <div class="row" id="product-list">
+                                    {{-- @foreach ($products as $item)
+                                    <p hidden id="id-product">{{ $item->id }}</p>
+                                    <div class="col-lg-3 col-md-12 mb-4">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-3">{{ $item->name }}</h5>
+                                                <p>Stok {{ $item->stock }}</p>
+                                                <h6 class="mb-3">Rp. {{ number_format($item->price,'0', ',', '.') }}</h6>
+                                                <p id="price_{{ $item->id }}" hidden>{{ $item->price }}</p>
+                                                <center>
+                                                    <table>
+                                                        <tr>
+                                                            <td style="padding: 0px 10px 0px 10px; cursor: pointer;" id="minus"><b>-</b></td>
+                                                            <td style="padding: 0px 10px 0px 10px;" class="num" id="quantity_{{ $item->id }}">0</td>
+                                                            <td style="padding: 0px 10px 0px 10px; cursor: pointer;" id="plus"><b>+</b></td>
+                                                        </tr>
+                                                    </table>
+                                                </center>
+                                                <br>
+                                                <p>Sub Total <b><span id="total">Rp. 0</span></b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach --}}
+                                    {{-- <div id="userList"></div> --}}
                                 </div>
                             </div>
                         </section>
@@ -36,6 +61,7 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            let products = @json($products);
             $.each(products, function(key, item) {
                 $("#product-list").append(`
             <div class="col-lg-4 col-md-6">

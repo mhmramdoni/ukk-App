@@ -32,6 +32,21 @@
                                                     Sub Total
                                                 </td>
                                             </tr>
+                                            @foreach ($sale['detail_sales'] as $item)
+                                                <tr class="service">
+                                                    <td class="tableitem">
+                                                        <p class="itemtext">{{ $item['product']['name'] }}</p>
+                                                    </td>
+                                                    <td class="tableitem">
+                                                        <p class="itemtext">{{ $item['amount'] }}</p>
+                                                    </td>
+                                                    <td class="tableitem">
+                                                        <p class="itemtext">Rp.
+                                                            {{ number_format($item['product']['price'], '0', ',', '.') }}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                             <tr class="tabletitle">
                                                 <td></td>
                                                 <td></td>
@@ -39,7 +54,7 @@
                                                     <h4>Total Harga</h4>
                                                 </td>
                                                 <td>
-                                                    <h4>Rp. </h4>
+                                                    <h4>Rp. {{ number_format($sale['total_price'], '0', ',', '.') }}</h4>
                                                 </td>
                                             </tr>
                                             <tr class="tabletitle">
@@ -49,7 +64,7 @@
                                                     <h4>Total Bayar</h4>
                                                 </td>
                                                 <td>
-                                                    <h4>Rp. </h4>
+                                                    <h4>Rp. {{ number_format($sale['total_pay'], '0', ',', '.') }}</h4>
                                                 </td>
                                             </tr>
                                         </table>
@@ -57,21 +72,21 @@
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="row">
-                                        <input type="hidden" name="sale_id" >
-                                        <input type="hidden" name="customer_id" >
+                                        <input type="hidden" name="sale_id" value="{{ $sale['id'] }}">
+                                        <input type="hidden" name="customer_id" value="{{ $sale['customer_id'] }}">
                                         <div class="form-group">
                                             <label for="name" class="form-label">Nama Member (identitas)</label>
                                             <input type="text" name="name" id="name" class="form-control"
-                                                required >
+                                                required value="{{ $sale['customer']['name'] }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="poin" class="form-label">Poin</label>
                                             <input type="text" name="point" id="poin"
-                                                disabled class="form-control">
+                                                value="{{ $sale['customer']['point'] }}" disabled class="form-control">
                                         </div>
                                         <div class="form-check ms-4">
                                             <input class="form-check-input" type="checkbox" value="Ya" id="check2"
-                                              name="check_poin">
+                                                {{ $notFirst ? '' : 'disabled' }} name="check_poin">
                                             <label class="form-check-label" for="check2">
                                                 Gunakan poin
                                             </label>

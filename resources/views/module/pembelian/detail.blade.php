@@ -24,9 +24,35 @@
                                         <thead>
                                             <h2>Produk yang dipilih</h2>
                                         </thead>
-                                        <tbody
+                                        <tbody>
+                                            @php
+                                                $total = [];
+                                            @endphp
+                                            @foreach ($shop as $item)
+                                                <input type="hidden" name="shop[]" value="{{ $item }}" hidden>
+                                                <tr>
+                                                    <td>{{ explode(';', $item)[1] }} <br> <small>Rp.
+                                                            {{ number_format(explode(';', $item)[2], '0', ',', '.') }} X
+                                                            {{ explode(';', $item)[3] }}</small></td>
+                                                    <td><b>Rp.
+                                                            {{ number_format(explode(';', $item)[4], '0', ',', '.') }}</b>
+                                                    </td>
+                                                </tr>
+                                                @php
+                                                    array_push($total, explode(';', $item)[4]);
+                                                @endphp
+                                            @endforeach
+                                            <tr>
+                                                <td style="padding-top: 20px; font-size: 20px;"><b>Total</b></td>
+                                                <td class="tex-end" style="padding-createsalestop: 20px; font-size: 20px;">
+                                                    <b>Rp.
+                                                        {{ number_format(array_sum($total), '0', ',', '.') }}</b>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="total_price" id="total_price"
+                                        value="{{ array_sum($total) }}">
 
                                 </div>
                                 <div class="col-lg-6 col-md-12">

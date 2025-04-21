@@ -102,7 +102,7 @@
                                                     </div>
                                                     <div class="row mt-3">
                                                         <center>
-                                                            Dibuat pada : {{ $sale->created_at }}  <br> Oleh : {{ $sale->user->name ?? 'Pegawai Tidak Ada' }}
+                                                            Dibuat pada : {{ \Carbon\Carbon::parse($sale['created_at'])->timezone('Asia/Jakarta')->format('d-m-Y H:i:s') }}  <br> Oleh : {{ $sale->user->name ?? 'Pegawai Tidak Ada' }}
                                                         </center>
                                                     </div>
                                                 </div>

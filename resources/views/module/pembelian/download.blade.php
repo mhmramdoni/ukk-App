@@ -94,15 +94,16 @@
             <div class="info" style="display: flex; justify-content: space-between;">
                 <div>
                     <small>
-                        Member Status :</br>
-                        No. HP :}</br>
+                        Member Status : {{ $sale['customer'] ? 'Member' : 'Bukan Member' }}</br>
+                        No. HP : {{ $sale['customer'] ? $sale['customer']['no_hp'] : '-' }}</br>
                     </small>
                 </div>
                 <div>
                     <small>
                         Bergabung Sejak :
+                        {{ $sale['customer'] ? \Carbon\Carbon::parse($sale['customer']['created_at'])->format('d F Y') : '-' }}
                         <br>
-                        Poin Member : 
+                        Poin Member : {{ $sale['customer'] ? $sale['customer']['poin'] : '-' }}
                     </small>
                 </div>
             </div>
@@ -123,6 +124,23 @@
                                 <h2>Sub Total</h2>
                             </td>
                         </tr>
+                        @foreach ($sale['detail_sales'] as $item)
+                            <tr class="service">
+                                <td class="tableitem">
+                                    <p class="itemtext">{{ $item['product']['name'] }}</p>
+                                </td>
+                                <td class="tableitem">
+                                    <p class="itemtext">{{ $item['amount'] }}</p>
+                                </td>
+                                <td class="tableitem">
+                                    <p class="itemtext">Rp.
+                                        {{ number_format($item['product']['price'], '0', ',', '.') }}</p>
+                                </td>
+                                <td class="tableitem">
+                                    <p class="itemtext">Rp. {{ number_format($item['subtotal'], '0', ',', '.') }}</p>
+                                </td>
+                            </tr>
+                        @endforeach
                         <tr class="tabletitle">
                             <td></td>
                             <td></td>
@@ -130,16 +148,17 @@
                                 <h2>Total Harga</h2>
                             </td>
                             <td>
-                                <h2>Rp. </h2>
+                                <h2>Rp. {{ number_format($sale['total_price'], '0', ',', '.') }}</h2>
                             </td>
                         </tr>
                         <tr class="tabletitle">
                             <td>Poin Digunakan</td>
+                            <td>{{ $sale['point'] }}</td>
                             <td>
                                 <h2>Harga Setelah Poin</h2>
                             </td>
                             <td>
-                                <h2>Rp. </h2>
+                                <h2>Rp. {{ number_format($sale['total_point'], '0', ',', '.') }}</h2>
                             </td>
                         </tr>
                         <tr class="tabletitle">
@@ -149,14 +168,14 @@
                                 <h2>Total Kembalian</h2>
                             </td>
                             <td>
-                                <h2>Rp. </h2>
+                                <h2>Rp. {{ number_format($sale['total_return'], '0', ',', '.') }}</h2>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div id="legalcopy">
                     <center>
-                        <p></p>
+                        <p>{{ \Carbon\Carbon::parse($sale['created_at'])->timezone('Asia/Jakarta')->format('d-m-Y H:i:s') }} | {{ $sale['user']['name'] }}</p>
                         <p class="legal"><strong>Terima kasih atas pembelian Anda!</strong></p>
                     </center>
                 </div>
