@@ -34,7 +34,7 @@
                     @endif
                     <h4 class="card-title mb-0">Daftar List</h4>
                     <a href="{{route('user.create')}}">
-                        <button type="button" class="btn btn-info mb-4">Tambah User</button>
+                        <button type="button" class="btn btn-info mb-4">+ Tambah User</button>
                     </a>
                 </div>
                 <div class="table-responsive">
@@ -56,12 +56,12 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->role }}</td>
                                 <td>
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning"><i class="mdi mdi-tooltip-edit"></i></a>
                                          
                                         <form action="{{ route('user.delete', $user->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?')"><i class="mdi mdi-delete"></i></button>
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus User ini?')" class="mdi mdi-delete"><i class="mdi mdi-delete"></i></button>
                                         </form>
                                 </td>
                             </tr>
