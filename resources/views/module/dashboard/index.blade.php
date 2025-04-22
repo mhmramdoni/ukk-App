@@ -62,8 +62,10 @@
     document.addEventListener("DOMContentLoaded", function () {
         // Pie Chart
         const pieCtx = document.getElementById('salesPieChart');
+        
         if(pieCtx) {
             new Chart(pieCtx, {
+                
                 type: 'pie',
                 data: {
                     labels: @json($labelspieChart),
@@ -91,13 +93,16 @@
                             }
                         },
                         tooltip: {
-                            enabled: true,
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${context.raw}%`;
-                                }
+                        enabled: true,
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.raw;
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${context.label} - ${value} (${percentage}%)`;
                             }
                         }
+                    }
                     }
                 }
             });

@@ -20,6 +20,12 @@
                         });
                     </script>
                     @endif
+                    <a href="{{ route('product.export.excel') }}">
+                        <button type="button" class="btn btn-success mb-4">
+                            <i class="mdi mdi-file-excel"></i> Export Excel
+                        </button>
+                    </a>
+                    
 
                     <h4 class="card-title mb-0">Daftar Produk</h4>
 

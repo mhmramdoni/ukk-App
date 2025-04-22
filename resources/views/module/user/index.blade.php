@@ -32,6 +32,12 @@
                         });
                     </script>
                     @endif
+                    <a href="{{ route('user.export') }}">
+                        <button type="button" class="btn btn-success mb-4">
+                            <i class="mdi mdi-file-excel"></i> Export Excel
+                        </button>
+                    </a>
+
                     <h4 class="card-title mb-0">Daftar List</h4>
                     <a href="{{route('user.create')}}">
                         <button type="button" class="btn btn-info mb-4">+ Tambah User</button>

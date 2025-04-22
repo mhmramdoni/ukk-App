@@ -4,8 +4,13 @@ use App\Http\Controllers\DetailSalesController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\SalessController;
 use App\Http\Controllers\UserController;
+use App\Exports\UserExport;
 use Database\Seeders\sales;
 use Illuminate\Support\Facades\Route;
+
+
+
+
 
 
 Route::middleware(['guest'])->group(function () {
@@ -23,6 +28,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/export-user', function () {
+        return Excel::download(new \App\Exports\UserExport, 'data_user.xlsx');
+    })->name('user.export');
+    Route::get('/product/export-excel', [ProductsController::class, 'exportExcel'])->name('product.export.excel');
     Route::prefix('/product')->name('product.')->group(function () {
         Route::put('/edit-stock/{id}', [ProductsController::class, 'updateStock'])->name('stock');
         Route::get('/create', [ProductsController::class, 'create'])->name('create');
@@ -30,7 +39,12 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
         Route::delete('/{id}', [ProductsController::class, 'destroy'])->name('delete');
         Route::get('/edit/{id}', [ProductsController::class, 'edit'])->name('edit');
         Route::put('/edit/{id}', [ProductsController::class, 'update'])->name('update');
+
+        
+    
     });
+
+    Route::get('/admin/export/excel', [DetailSalesController::class, 'exportexcel'])->name('exportexcel.admin');
 
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('list');
@@ -43,7 +57,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'is_employee'])->group(function () {
-
+    Route::get('/product/export-excel', [ProductsController::class, 'exportExcel'])->name('product.export.excel');
     Route::prefix('/sales')->name('sales.')->group(function () {
         Route::get('/create',[SalessController::class, 'create'])->name('create');
         Route::post('/create/post',[SalessController::class, 'store'])->name('store');

@@ -75,10 +75,9 @@
                                                             class="text-danger">(daftar/gunakan member)</small></label>
                                                     <div class="col-md-12">
                                                         <input type="text" name="no_hp" id="no_hp"
-                                                        class="form-control form-control-line @error('no_hp') is-invalid @enderror"
-                                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,13);"
-                                                        minlength="11"
-                                                        required>
+                                                            class="form-control form-control-line @error('no_hp') is-invalid @enderror"
+                                                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,13);"
+                                                            minlength="11">
                                                         @error('no_hp')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
@@ -130,6 +129,10 @@
         }
     </script>
 <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+        memberDetect(); // Deteksi saat pertama kali load halaman
+    });
     function formatRupiah(input) {
         // Menghapus karakter yang bukan angka
         let value = input.value.replace(/[^0-9]/g, '');

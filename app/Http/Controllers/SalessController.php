@@ -78,14 +78,23 @@ class SalessController extends Controller
 
     public function createsales(Request $request)
     {
-        $request->validate([
+        $rules = [
             'total_pay' => 'required',
-            'no_hp' => 'required|digits_between:10,13',
-        ], [
+        ];
+        
+        $messages = [
             'total_pay.required' => 'Berapa jumlah uang yang dibayarkan?',
-            'no_hp.required' => 'Nomor HP wajib diisi!',
-            'no_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 13 digit.',
-        ]);
+        ];
+        
+        // Validasi tambahan jika member
+        if ($request->member === 'Member') {
+            $rules['no_hp'] = 'required|digits_between:10,13';
+            $messages['no_hp.required'] = 'Nomor HP wajib diisi!';
+            $messages['no_hp.digits_between'] = 'Nomor HP harus terdiri dari 10 sampai 13 digit.';
+        }
+        
+        $request->validate($rules, $messages);
+        
 
         $newPrice = (int) preg_replace('/\D/', '', $request->total_price);
         $newPay = (int) preg_replace('/\D/', '', $request->total_pay);

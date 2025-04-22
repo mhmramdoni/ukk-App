@@ -103,7 +103,7 @@
                         Bergabung Sejak :
                         {{ $sale['customer'] ? \Carbon\Carbon::parse($sale['customer']['created_at'])->format('d F Y') : '-' }}
                         <br>
-                        Poin Member : {{ $sale['customer'] ? $sale['customer']['poin'] : '-' }}
+                        Poin Member : {{ $sale['point'] }}
                     </small>
                 </div>
             </div>
@@ -153,7 +153,7 @@
                         </tr>
                         <tr class="tabletitle">
                             <td>Poin Digunakan</td>
-                            <td>{{ $sale['point'] }}</td>
+                            <td>{{ $sale['total_point'] }}</td>
                             <td>
                                 <h2>Harga Setelah Poin</h2>
                             </td>

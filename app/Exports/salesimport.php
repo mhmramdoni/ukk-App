@@ -23,7 +23,7 @@ class salesimport implements FromCollection, WithHeadings, WithMapping, WithTitl
         if (Auth::user()->role === 'employee') {
             return saless::with('customer', 'user', 'detail_sales')->orderBy('id', 'desc')->get();
         } else {
-            return collect();
+            return saless::with('customer', 'user', 'detail_sales')->orderBy('id', 'desc')->get();
         }
     }
 

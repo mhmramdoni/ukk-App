@@ -40,13 +40,18 @@ class DetailSalesController extends Controller
         $salesData = $sales->pluck('total')->toArray();
 
         $productShell = detail_sales::with('product')
-        ->selectRaw('product_id, SUM(amount) as total_amount')
-        ->groupBy('product_id')
-        ->get();
+            ->selectRaw('product_id, SUM(amount) as total_amount')
+            ->groupBy('product_id')
+            ->get();
 
-        // Ambil nama produk sebagai label dan jumlah produk terjual sebagai data
-        $labelspieChart = $productShell->map(fn($item) => $item->product->name . ' : ' . $item->total_amount)->toArray();
-        $salesDatapieChart = $productShell->map(fn($item) => $item->total_amount)->toArray();
+        $totalAmountSold = $productShell->sum('total_amount'); // Total semua produk terjual
+
+        $labelspieChart = $productShell->map(function($item) use ($totalAmountSold) {
+            $percentage = $totalAmountSold > 0 ? round(($item->total_amount / $totalAmountSold) * 100, 1) : 0;
+            return $item->product->name . ' (' . $percentage . '%)';
+        })->toArray();
+
+        $salesDatapieChart = $productShell->pluck('total_amount')->toArray();
 
         return view('module.dashboard.index', compact('labels', 'salesData', 'detail_sales', 'todaySalesCount', 'productShell', 'labelspieChart', 'salesDatapieChart'));
 
@@ -100,6 +105,8 @@ class DetailSalesController extends Controller
     {
         if (Auth::user()->role == 'employee') {
             return FacadesExcel::download(new salesimport, 'Penjualan.xlsx');
+        }else {
+            return FacadesExcel::download(new salesimport, 'Penjualan.xlsx');
         }
     }
     /**
@@ -147,4 +154,3 @@ class DetailSalesController extends Controller
         //
     }
 }
-    

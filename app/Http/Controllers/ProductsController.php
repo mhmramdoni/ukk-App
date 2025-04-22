@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\detail_sales;
 use App\Models\products;
 use Illuminate\Http\Request;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
 
 class ProductsController extends Controller
 {
@@ -52,6 +56,11 @@ class ProductsController extends Controller
 
         return redirect()->route('product')->with('success', 'Berhasil Membuat Product');
     }
+
+    public function exportExcel()
+        {
+            return Excel::download(new ProductsExport, 'produk.xlsx');
+        }
 
 
     /**

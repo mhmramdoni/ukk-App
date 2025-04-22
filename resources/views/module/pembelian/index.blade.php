@@ -12,8 +12,18 @@
                             <div class="row">
                                 @if (Auth::user()->role == 'employee')
                                 <div class="col-6">
-                                    <a href="{{ route('sales.exportexcel') }}" class="btn btn-info">
-                                        Export Penjualan (.xlsx)
+                                    <a href="{{ route('sales.exportexcel') }}">
+                                        <button type="button" class="btn btn-success mb-4">
+                                            <i class="mdi mdi-file-excel"></i> Export Excel
+                                        </button>
+                                    </a>
+                                </div>
+                                @else
+                                <div class="col-6">
+                                    <a href="{{ route('exportexcel.admin') }}">
+                                        <button type="button" class="btn btn-success mb-4">
+                                            <i class="mdi mdi-file-excel"></i> Export Excel
+                                        </button>
                                     </a>
                                 </div>
                                 @endif
@@ -102,7 +112,7 @@
                                                     </div>
                                                     <div class="row mt-3">
                                                         <center>
-                                                            Dibuat pada : {{ \Carbon\Carbon::parse($sale['created_at'])->timezone('Asia/Jakarta')->format('d-m-Y H:i:s') }}  <br> Oleh : {{ $sale->user->name ?? 'Pegawai Tidak Ada' }}
+                                                            Dibuat pada : {{ $sale->created_at }}  <br> Oleh : {{ $sale->user->name ?? 'Pegawai Tidak Ada' }}
                                                         </center>
                                                     </div>
                                                 </div>
